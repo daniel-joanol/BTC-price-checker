@@ -1,21 +1,23 @@
 import argparse
 from app.domain.currency import Fiat, Crypto
-from app.domain.prices import Prices
 from app.exchanges.binance import Binance
+from app.exchanges.kraken import Kraken
 from app.utils.logging import setup_logger
 
 log = setup_logger('main.py')
 
 def start_exchanges():
-  binance = Binance()
-  return binance
+  return Binance(), Kraken()
 
 
 def main(crypto: Crypto, fiat: Fiat):
   log.info(f'crypto: {crypto.value} / fiat: {fiat.value}')
-  binance = start_exchanges()
+  binance, kraken = start_exchanges()
   binancePrices = binance.get_prices(crypto, fiat)
+  krakenPrices = kraken.get_prices(crypto, fiat)
   log.info(f'{binancePrices}')
+  log.info(f'{krakenPrices}')
+
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Choose the crypto currency you want to search for and the fiat currency in which the prices should be calculated.")
