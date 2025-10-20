@@ -36,8 +36,8 @@ class Binance(Exchange):
   def _set_prices(self, data: dict) -> Prices:
     return Prices(
       exchange='Binance',
-      actual=data['lastPrice'],
-      higher=data['highPrice'],
-      lower=data['lowPrice'],
-      percentageChange=data['priceChangePercent']
+      actual=float(data['lastPrice']),
+      higher=float(data['highPrice']),
+      lower=float(data['lowPrice']),
+      percentageChange=float(data['priceChangePercent'])
     )  

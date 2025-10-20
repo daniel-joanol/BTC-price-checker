@@ -13,11 +13,14 @@ def start_exchanges():
 def main(crypto: Crypto, fiat: Fiat):
   log.info(f'crypto: {crypto.value} / fiat: {fiat.value}')
   binance, kraken = start_exchanges()
-  binancePrices = binance.get_prices(crypto, fiat)
-  krakenPrices = kraken.get_prices(crypto, fiat)
-  log.info(f'{binancePrices}')
-  log.info(f'{krakenPrices}')
-
+  price_list = [
+    binance.get_prices(crypto, fiat),
+    kraken.get_prices(crypto, fiat)
+  ]
+  sorted_list = sorted(price_list, key=lambda p: p.actual)
+  for prices in sorted_list:
+    log.info(f'{prices}')
+    
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Choose the crypto currency you want to search for and the fiat currency in which the prices should be calculated.")
