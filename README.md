@@ -1,6 +1,6 @@
 # BTC-price-checker
 
-A lightweight Python tool to fetch and compare live cryptocurrency prices — including **Binance**, **Kraken**, and **Foxbit** — with key market metrics like **24h high, low, actual price and price percentage change**.
+A lightweight Python tool to fetch and compare live cryptocurrency prices — from exchanges like **Binance**, **Kraken**, and **Foxbit** — with key market metrics like **24h high, low, actual price and price percentage change**.
 
 ---
 
