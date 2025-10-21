@@ -8,4 +8,4 @@ class Prices:
   actual: float
   higher: Optional[float] = None
   lower: Optional[float] = None
-  percentageChange: Optional[float] = None
+  percentage_change: Optional[float] = None

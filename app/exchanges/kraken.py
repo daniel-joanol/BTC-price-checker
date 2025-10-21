@@ -22,8 +22,8 @@ class Kraken(Exchange):
 
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
     pair = pairs[f'{crypto.value}-{fiat.value}']
-    fiatDoesNotExist = pair == None
-    if fiatDoesNotExist:
+    fiat_does_not_exist = pair == None
+    if fiat_does_not_exist:
       pair = pairs[f'{crypto.value}-{Fiat.EUR.value}']
 
     url=f'https://api.kraken.com/0/public/Ticker?pair={pair}'
@@ -34,10 +34,10 @@ class Kraken(Exchange):
       log.error(f'Response: {response.json()}')
 
     else:
-      return self._set_prices(response.json(), fiatDoesNotExist, fiat)
+      return self._set_prices(response.json(), fiat_does_not_exist, fiat)
 
     
-  def _set_prices(self, data: dict, fiatDoesNotExist: bool, fiat: Fiat) -> Prices:
+  def _set_prices(self, data: dict, fiat_does_not_exist: bool, convert_to: Fiat) -> Prices:
     exchange='Kraken'
     pair_key = list(data['result'].keys())[0]
     pair_data = data['result'][pair_key]
@@ -47,7 +47,7 @@ class Kraken(Exchange):
     open_price = float(pair_data['o'])
     percentage_change = ((actual - open_price) / open_price) * 100
 
-    if fiatDoesNotExist:
+    if fiat_does_not_exist:
       rate = 1
       return Prices(
         exchange, 
