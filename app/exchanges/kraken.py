@@ -29,12 +29,12 @@ class Kraken(Exchange):
     url=f'https://api.kraken.com/0/public/Ticker?pair={pair}'
     response = requests.get(url)
 
-    if response.status_code == 200:
-      return self._set_prices(response.json(), fiatDoesNotExist, fiat)
+    petition_failed = response.json()['error'] != []
+    if petition_failed:
+      log.error(f'Response: {response.json()}')
 
     else:
-      log.error(f'Petition failed: {response.status_code}')
-      log.error(f'Response: {response.json()}')
+      return self._set_prices(response.json(), fiatDoesNotExist, fiat)
 
     
   def _set_prices(self, data: dict, fiatDoesNotExist: bool, fiat: Fiat) -> Prices:

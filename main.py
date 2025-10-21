@@ -13,13 +13,22 @@ def start_exchanges():
 def main(crypto: Crypto, fiat: Fiat):
   log.info(f'crypto: {crypto.value} / fiat: {fiat.value}')
   binance, kraken = start_exchanges()
-  price_list = [
-    binance.get_prices(crypto, fiat),
-    kraken.get_prices(crypto, fiat)
-  ]
-  sorted_list = sorted(price_list, key=lambda p: p.actual)
-  for prices in sorted_list:
-    log.info(f'{prices}')
+  price_list = []
+
+  binancePrices = binance.get_prices(crypto, fiat)
+  if binancePrices != None:
+    price_list.append(binancePrices)
+
+  krakenPrices = kraken.get_prices(crypto, fiat)
+  if krakenPrices != None:
+    price_list.append(krakenPrices)
+
+  if price_list == []:
+    log.error('There are no results to show')
+  else:
+    sorted_list = sorted(price_list, key=lambda p: p.actual)
+    for prices in sorted_list:
+      log.info(f'{prices}')
     
 
 if __name__ == "__main__":
