@@ -13,15 +13,19 @@ pairs = {
   f'{Crypto.ETH.value}-{Fiat.EUR.value}': 'ETHEUR',
   f'{Crypto.ETH.value}-{Fiat.USD.value}': 'ETHUSDT',
   f'{Crypto.ETH.value}-{Fiat.BRL.value}': 'ETHBRL',
-  f'{Crypto.XMR.value}-{Fiat.EUR.value}': 'XMREUR',
-  f'{Crypto.XMR.value}-{Fiat.USD.value}': 'XMRUSDT',
-  f'{Crypto.XMR.value}-{Fiat.BRL.value}': 'XMRBRL'
+  f'{Crypto.XMR.value}-{Fiat.EUR.value}': 'Delisted',
+  f'{Crypto.XMR.value}-{Fiat.USD.value}': 'Delisted',
+  f'{Crypto.XMR.value}-{Fiat.BRL.value}': 'Delisted'
 }
 
 class Binance(Exchange):
   
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
     pair = pairs[f'{crypto.value}-{fiat.value}']
+    if pair == 'Delisted':
+      log.info('This pair have been delisted')
+      return None
+
     url = f'https://api.binance.com/api/v3/ticker/24hr?symbol={pair}'
     response = requests.get(url)
 
