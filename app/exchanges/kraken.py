@@ -2,7 +2,8 @@ import requests
 from .exchange import Exchange
 from app.domain.currency import Crypto, Fiat
 from app.domain.prices import Prices
-from app.converter.currency_freaks_converter import CurrencyFreaksConverter
+from app.converter.currency_converter import CurrencyConverter
+from app.exception.exceptions import PetitionError
 from app.utils.logging import setup_logger
 
 log = setup_logger('kraken.py')
@@ -21,8 +22,8 @@ pairs = {
 
 class Kraken(Exchange):
 
-  def __init__(self):
-    self.converter = CurrencyFreaksConverter()
+  def __init__(self, converter: CurrencyConverter):
+    self.converter = converter
 
 
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
@@ -37,6 +38,7 @@ class Kraken(Exchange):
     petition_failed = response.json()['error'] != []
     if petition_failed:
       log.error(f'Response: {response.json()}')
+      raise PetitionError()
 
     else:
       return self._set_prices(response.json(), fiat_does_not_exist, fiat)

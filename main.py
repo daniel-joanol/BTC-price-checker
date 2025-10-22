@@ -1,27 +1,40 @@
 import argparse
 from app.domain.currency import Fiat, Crypto
+from app.domain.prices import Prices
+from app.exchanges.exchange import Exchange
 from app.exchanges.binance import Binance
 from app.exchanges.kraken import Kraken
+from app.converter.currency_freaks_converter import CurrencyFreaksConverter
+from app.exception.exceptions import PetitionError, UnsupportedCurrencyError
+from typing import Optional
 from app.utils.logging import setup_logger
 
 log = setup_logger('main.py')
 
 def start_exchanges():
-  return Binance(), Kraken()
+  converter = CurrencyFreaksConverter()
+  return [Binance(), Kraken(converter)]
+
+def get_prices(exchange: Exchange, crypto: Crypto, fiat: Fiat) -> Optional[Prices]:
+  try:
+    return exchange.get_prices(crypto, fiat)
+  except PetitionError as e:
+    pass
+  except UnsupportedCurrencyError as e:
+    pass
+  except Exception as e:
+    log.error(f'{e}')
+    pass
 
 
 def main(crypto: Crypto, fiat: Fiat):
   log.info(f'crypto: {crypto.value} / fiat: {fiat.value}')
-  binance, kraken = start_exchanges()
-  price_list = []
-
-  binancePrices = binance.get_prices(crypto, fiat)
-  if binancePrices != None:
-    price_list.append(binancePrices)
-
-  krakenPrices = kraken.get_prices(crypto, fiat)
-  if krakenPrices != None:
-    price_list.append(krakenPrices)
+  price_list = list()
+  exchanges = start_exchanges()
+  for exchange in exchanges:
+    prices = get_prices(exchange, crypto, fiat)
+    if prices != None:
+      price_list.append(prices)
 
   if price_list == []:
     log.error('There are no results to show')

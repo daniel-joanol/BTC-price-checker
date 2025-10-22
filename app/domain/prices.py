@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from typing import Optional
-from .currency import Fiat
 
 @dataclass
 class Prices:

@@ -2,6 +2,7 @@ import os
 import requests
 from .currency_converter import CurrencyConverter
 from app.domain.currency import Fiat
+from app.exception.exceptions import PetitionError
 from app.utils.logging import setup_logger
 
 log = setup_logger('currency_freaks_converter.py')
@@ -19,6 +20,8 @@ class CurrencyFreaksConverter(CurrencyConverter):
       rate_from = float(data['rates'][convert_from.value])
       rate_to = float(data['rates'][convert_to.value])
       return rate_to / rate_from
+    
     else:
-      log.error(f'{response.json()}')
-      return None
+      log.error(f'Petition failed: {response.status_code}')
+      log.error(f'Petition response: {response.json()}')
+      raise PetitionError()

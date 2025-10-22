@@ -1,6 +1,7 @@
 from .exchange import Exchange
 from app.domain.currency import Crypto, Fiat
 from app.domain.prices import Prices
+from app.exception.exceptions import UnsupportedCurrencyError, PetitionError
 import requests
 from app.utils.logging import setup_logger
 
@@ -25,7 +26,7 @@ class Binance(Exchange):
     pair = pairs[f'{crypto.value}-{fiat.value}']
     if pair == DELISTED:
       log.info('This pair have been delisted')
-      return None
+      raise UnsupportedCurrencyError()
 
     url = f'https://api.binance.com/api/v3/ticker/24hr?symbol={pair}'
     response = requests.get(url)
@@ -35,7 +36,8 @@ class Binance(Exchange):
 
     else:
       log.error(f'Petition failed: {response.status_code}')
-      log.error(f'Response: {response.json()}')  
+      log.error(f'Response: {response.json()}')
+      raise PetitionError()
 
   
   def _set_prices(self, data: dict) -> Prices:
