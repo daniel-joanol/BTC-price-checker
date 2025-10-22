@@ -39,13 +39,16 @@ class TestExchanges(unittest.TestCase):
     
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description="""
-    Test if the the exchanges implement every pair and if they can get the prices.
-    The calls to get prices may be paid, which could make the test expansive, or they could be free and limited, which could interfere with the main script.
-    For these reasons the flag --sleep is optional.
-    There's a second parameter called --sleep, which sets the sleep time between api calls.
+    Test whether the exchanges implement all expected currency pairs and whether they can retrieve real-time prices.
+
+    Calling the actual price APIs may incur costs or be subject to rate limits, which could interfere with normal usage. 
+    To prevent unintended behavior or extra charges, the --prices flag must be explicitly set to enable live API calls.
+
+    An optional --sleep parameter sets a delay (in seconds) between each API call. Default is 0.
     """, formatter_class=argparse.RawDescriptionHelpFormatter)
-  parser.add_argument('--prices', action='store_true', help='make real calls to the APIs')
-  parser.add_argument('--sleep', type=int, default=0, help='default value: 0')
+
+  parser.add_argument('--prices', action='store_true', help='make real API calls to fetch prices')
+  parser.add_argument('--sleep', type=int, default=0, help='sleep time (in seconds) between API calls; default: 0')
+  
   args = parser.parse_args()
-  print(args)
   unittest.main(argv=[sys.argv[0]])
