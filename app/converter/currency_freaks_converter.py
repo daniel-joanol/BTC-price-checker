@@ -23,5 +23,5 @@ class CurrencyFreaksConverter(CurrencyConverter):
     
     else:
       log.error(f'Petition failed: {response.status_code}')
-      log.error(f'Petition response: {response.json()}')
+      log.error(f'Response: {response.json()}')
       raise PetitionError()
