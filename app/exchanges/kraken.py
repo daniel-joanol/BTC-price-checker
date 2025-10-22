@@ -51,7 +51,7 @@ class Kraken(Exchange):
     lower = float(pair_data['l'][1])
     open_price = float(pair_data['o'])
     percentage_change = ((actual - open_price) / open_price) * 100
-
+    
     if fiat_does_not_exist:
       rate = self.converter.get_conversion_rate(Fiat.EUR, convert_to)
       return Prices(

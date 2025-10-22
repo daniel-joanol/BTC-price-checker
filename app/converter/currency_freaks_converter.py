@@ -10,8 +10,15 @@ CURRENCY_API_KEY = os.getenv('CURRENCY_API_KEY')
 
 class CurrencyFreaksConverter(CurrencyConverter):
 
-  def get_conversion_rate(convert_from: Fiat, convert_to: Fiat) -> float:
-    url = f'https://api.currencyfreaks.com/v2.0/rates/latest?apikey={CURRENCY_API_KEY}&symbols={convert_from.value}'
+  def get_conversion_rate(self, convert_from: Fiat, convert_to: Fiat) -> float:
+    url = f'https://api.currencyfreaks.com/v2.0/rates/latest?apikey={CURRENCY_API_KEY}&symbols={convert_from.value},{convert_to.value}'
     response = requests.get(url)
-    print(f'{response.json()}')
-    return None
+    data = response.json()
+    
+    if response.status_code == 200:
+      rate_from = float(data['rates'][convert_from.value])
+      rate_to = float(data['rates'][convert_to.value])
+      return rate_to / rate_from
+    else:
+      log.error(f'{response.json()}')
+      return None

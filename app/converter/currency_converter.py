@@ -4,5 +4,5 @@ from ..domain.currency import Fiat
 class CurrencyConverter(ABC):
 
   @abstractmethod
-  def get_conversion_rate(convert_from: Fiat, convert_to: Fiat) -> float:
+  def get_conversion_rate(self, convert_from: Fiat, convert_to: Fiat) -> float:
     ...
