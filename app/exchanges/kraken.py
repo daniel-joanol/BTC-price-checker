@@ -8,29 +8,29 @@ from app.utils.logging import setup_logger
 
 log = setup_logger('kraken.py')
 
-pairs = {
-  f'{Crypto.BTC.value}-{Fiat.EUR.value}': 'XXBTZEUR',
-  f'{Crypto.BTC.value}-{Fiat.USD.value}': 'XXBTZUSD',
-  f'{Crypto.BTC.value}-{Fiat.BRL.value}': None,
-  f'{Crypto.ETH.value}-{Fiat.EUR.value}': 'XETHZEUR',
-  f'{Crypto.ETH.value}-{Fiat.USD.value}': 'XETHZUSD',
-  f'{Crypto.ETH.value}-{Fiat.BRL.value}': None,
-  f'{Crypto.XMR.value}-{Fiat.EUR.value}': 'XXMRZEUR',
-  f'{Crypto.XMR.value}-{Fiat.USD.value}': 'XXMRZUSD',
-  f'{Crypto.XMR.value}-{Fiat.BRL.value}': None,
-}
-
 class Kraken(Exchange):
+  
+  pairs = {
+    f'{Crypto.BTC.value}-{Fiat.EUR.value}': 'XXBTZEUR',
+    f'{Crypto.BTC.value}-{Fiat.USD.value}': 'XXBTZUSD',
+    f'{Crypto.BTC.value}-{Fiat.BRL.value}': None,
+    f'{Crypto.ETH.value}-{Fiat.EUR.value}': 'XETHZEUR',
+    f'{Crypto.ETH.value}-{Fiat.USD.value}': 'XETHZUSD',
+    f'{Crypto.ETH.value}-{Fiat.BRL.value}': None,
+    f'{Crypto.XMR.value}-{Fiat.EUR.value}': 'XXMRZEUR',
+    f'{Crypto.XMR.value}-{Fiat.USD.value}': 'XXMRZUSD',
+    f'{Crypto.XMR.value}-{Fiat.BRL.value}': None,
+  }
 
   def __init__(self, converter: CurrencyConverter):
     self.converter = converter
 
 
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
-    pair = pairs[f'{crypto.value}-{fiat.value}']
+    pair = self.pairs[f'{crypto.value}-{fiat.value}']
     fiat_does_not_exist = pair == None
     if fiat_does_not_exist:
-      pair = pairs[f'{crypto.value}-{Fiat.EUR.value}']
+      pair = self.pairs[f'{crypto.value}-{Fiat.EUR.value}']
 
     url=f'https://api.kraken.com/0/public/Ticker?pair={pair}'
     response = requests.get(url)

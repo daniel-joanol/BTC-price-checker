@@ -8,22 +8,23 @@ from app.utils.logging import setup_logger
 log = setup_logger('binance.py')
 
 DELISTED = 'DELISTED'
-pairs = {
-  f'{Crypto.BTC.value}-{Fiat.EUR.value}': 'BTCEUR',
-  f'{Crypto.BTC.value}-{Fiat.USD.value}': 'BTCUSDT',
-  f'{Crypto.BTC.value}-{Fiat.BRL.value}': 'BTCBRL',
-  f'{Crypto.ETH.value}-{Fiat.EUR.value}': 'ETHEUR',
-  f'{Crypto.ETH.value}-{Fiat.USD.value}': 'ETHUSDT',
-  f'{Crypto.ETH.value}-{Fiat.BRL.value}': 'ETHBRL',
-  f'{Crypto.XMR.value}-{Fiat.EUR.value}': DELISTED,
-  f'{Crypto.XMR.value}-{Fiat.USD.value}': DELISTED,
-  f'{Crypto.XMR.value}-{Fiat.BRL.value}': DELISTED
-}
 
 class Binance(Exchange):
   
+  pairs = {
+    f'{Crypto.BTC.value}-{Fiat.EUR.value}': 'BTCEUR',
+    f'{Crypto.BTC.value}-{Fiat.USD.value}': 'BTCUSDT',
+    f'{Crypto.BTC.value}-{Fiat.BRL.value}': 'BTCBRL',
+    f'{Crypto.ETH.value}-{Fiat.EUR.value}': 'ETHEUR',
+    f'{Crypto.ETH.value}-{Fiat.USD.value}': 'ETHUSDT',
+    f'{Crypto.ETH.value}-{Fiat.BRL.value}': 'ETHBRL',
+    f'{Crypto.XMR.value}-{Fiat.EUR.value}': DELISTED,
+    f'{Crypto.XMR.value}-{Fiat.USD.value}': DELISTED,
+    f'{Crypto.XMR.value}-{Fiat.BRL.value}': DELISTED
+  }
+  
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
-    pair = pairs[f'{crypto.value}-{fiat.value}']
+    pair = self.pairs[f'{crypto.value}-{fiat.value}']
     if pair == DELISTED:
       log.info('This pair have been delisted')
       raise UnsupportedCurrencyError()
