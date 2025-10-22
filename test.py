@@ -1,6 +1,6 @@
 import unittest, logging
 from main import start_exchanges
-from app.utils.logging import setup_logger;
+from app.util.logging import setup_logger;
 from app.domain.currency import Fiat, Crypto
 
 log = setup_logger('test.py', logging.DEBUG)

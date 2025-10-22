@@ -4,7 +4,7 @@ from app.domain.currency import Crypto, Fiat
 from app.domain.prices import Prices
 from app.converter.currency_converter import CurrencyConverter
 from app.exception.exceptions import PetitionError
-from app.utils.logging import setup_logger
+from app.util.logging import setup_logger
 
 log = setup_logger('kraken.py')
 

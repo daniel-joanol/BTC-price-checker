@@ -3,7 +3,7 @@ import requests
 from .currency_converter import CurrencyConverter
 from app.domain.currency import Fiat
 from app.exception.exceptions import PetitionError
-from app.utils.logging import setup_logger
+from app.util.logging import setup_logger
 
 log = setup_logger('currency_freaks_converter.py')
 

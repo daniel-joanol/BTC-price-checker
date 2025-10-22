@@ -1,13 +1,13 @@
 import argparse
 from app.domain.currency import Fiat, Crypto
 from app.domain.prices import Prices
-from app.exchanges.exchange import Exchange
-from app.exchanges.binance import Binance
-from app.exchanges.kraken import Kraken
+from app.exchange.exchange import Exchange
+from app.exchange.binance import Binance
+from app.exchange.kraken import Kraken
 from app.converter.currency_freaks_converter import CurrencyFreaksConverter
 from app.exception.exceptions import PetitionError, UnsupportedCurrencyError
 from typing import Optional
-from app.utils.logging import setup_logger
+from app.util.logging import setup_logger
 
 log = setup_logger('main.py')
 
