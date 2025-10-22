@@ -7,6 +7,7 @@ from app.exception.exceptions import PetitionError
 from app.util.logging import setup_logger
 
 log = setup_logger('kraken.py')
+DEFAULT_FIAT = Fiat.EUR
 
 class Kraken(Exchange):
   
@@ -30,7 +31,7 @@ class Kraken(Exchange):
     pair = self.pairs[f'{crypto.value}-{fiat.value}']
     fiat_does_not_exist = pair == None
     if fiat_does_not_exist:
-      pair = self.pairs[f'{crypto.value}-{Fiat.EUR.value}']
+      pair = self.pairs[f'{crypto.value}-{DEFAULT_FIAT.value}']
 
     url=f'https://api.kraken.com/0/public/Ticker?pair={pair}'
     response = requests.get(url)
@@ -55,13 +56,13 @@ class Kraken(Exchange):
     percentage_change = ((actual - open_price) / open_price) * 100
     
     if fiat_does_not_exist:
-      rate = self.converter.get_conversion_rate(Fiat.EUR, convert_to)
+      rate = self.converter.get_conversion_rate(DEFAULT_FIAT, convert_to)
       return Prices(
         exchange, 
         actual=self._convert(actual, rate),
         higher=self._convert(higher, rate),
         lower=self._convert(lower, rate),
-        percentage_change=self._convert(percentage_change, rate)
+        percentage_change=percentage_change
       )
     
     else:

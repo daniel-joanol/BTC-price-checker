@@ -4,6 +4,7 @@ from app.domain.prices import Prices
 from app.exchange.exchange import Exchange
 from app.exchange.binance import Binance
 from app.exchange.kraken import Kraken
+from app.exchange.foxbit import Foxbit
 from app.converter.currency_freaks_converter import CurrencyFreaksConverter
 from app.exception.exceptions import PetitionError, UnsupportedCurrencyError
 from typing import Optional
@@ -13,7 +14,7 @@ log = setup_logger('main.py')
 
 def start_exchanges():
   converter = CurrencyFreaksConverter()
-  return [Binance(), Kraken(converter)]
+  return [Binance(), Kraken(converter), Foxbit(converter)]
 
 def get_prices(exchange: Exchange, crypto: Crypto, fiat: Fiat) -> Optional[Prices]:
   try:
