@@ -52,8 +52,8 @@ if __name__ == "__main__":
     Set the environment variable CURRENCY_API_KEY to enable automatic conversion when certain fiat currencies are not available on an exchange.
     Specify the cryptocurrency to fetch and the fiat currency for price calculation.
     """, formatter_class=argparse.RawDescriptionHelpFormatter)
-  parser.add_argument("--crypto", type=Crypto, required=False, default=Crypto.BTC, help="Default value: BTC")
-  parser.add_argument("--fiat", type=Fiat, required=False, default=Fiat.EUR, help="Defautl value: EUR")
+  parser.add_argument("--crypto", type=Crypto, required=False, default=Crypto.BTC, help="default value: BTC")
+  parser.add_argument("--fiat", type=Fiat, required=False, default=Fiat.EUR, help="defautl value: EUR")
   
   args = parser.parse_args()
   main(args.crypto, args.fiat)
