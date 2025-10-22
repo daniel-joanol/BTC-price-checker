@@ -32,7 +32,12 @@ def main(crypto: Crypto, fiat: Fiat):
     
 
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description="Choose the crypto currency you want to search for and the fiat currency in which the prices should be calculated.")
+  parser = argparse.ArgumentParser(description=
+    """
+    A lightweight Python tool to fetch and compare live cryptocurrency prices.
+    Set the environment variable CURRENCY_API_KEY to enable automatic conversion when certain fiat currencies are not available on an exchange.
+    Specify the cryptocurrency to fetch and the fiat currency for price calculation.
+    """, formatter_class=argparse.RawDescriptionHelpFormatter)
   parser.add_argument("--crypto", type=Crypto, required=False, default=Crypto.BTC, help="Default value: BTC")
   parser.add_argument("--fiat", type=Fiat, required=False, default=Fiat.EUR, help="Defautl value: EUR")
   
