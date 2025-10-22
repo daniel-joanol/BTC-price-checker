@@ -1,7 +1,8 @@
+import requests
 from .exchange import Exchange
 from app.domain.currency import Crypto, Fiat
 from app.domain.prices import Prices
-import requests
+from app.converter.currency_freaks_converter import CurrencyFreaksConverter
 from app.utils.logging import setup_logger
 
 log = setup_logger('kraken.py')
@@ -19,6 +20,10 @@ pairs = {
 }
 
 class Kraken(Exchange):
+
+  def __init__(self):
+    self.converter = CurrencyFreaksConverter()
+
 
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
     pair = pairs[f'{crypto.value}-{fiat.value}']
@@ -48,7 +53,7 @@ class Kraken(Exchange):
     percentage_change = ((actual - open_price) / open_price) * 100
 
     if fiat_does_not_exist:
-      rate = 1
+      rate = self.converter.get_conversion_rate(Fiat.EUR, convert_to)
       return Prices(
         exchange, 
         actual=self._convert(actual, rate),

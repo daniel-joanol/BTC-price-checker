@@ -6,6 +6,7 @@ from app.utils.logging import setup_logger
 
 log = setup_logger('binance.py')
 
+DELISTED = 'DELISTED'
 pairs = {
   f'{Crypto.BTC.value}-{Fiat.EUR.value}': 'BTCEUR',
   f'{Crypto.BTC.value}-{Fiat.USD.value}': 'BTCUSDT',
@@ -13,16 +14,16 @@ pairs = {
   f'{Crypto.ETH.value}-{Fiat.EUR.value}': 'ETHEUR',
   f'{Crypto.ETH.value}-{Fiat.USD.value}': 'ETHUSDT',
   f'{Crypto.ETH.value}-{Fiat.BRL.value}': 'ETHBRL',
-  f'{Crypto.XMR.value}-{Fiat.EUR.value}': 'Delisted',
-  f'{Crypto.XMR.value}-{Fiat.USD.value}': 'Delisted',
-  f'{Crypto.XMR.value}-{Fiat.BRL.value}': 'Delisted'
+  f'{Crypto.XMR.value}-{Fiat.EUR.value}': DELISTED,
+  f'{Crypto.XMR.value}-{Fiat.USD.value}': DELISTED,
+  f'{Crypto.XMR.value}-{Fiat.BRL.value}': DELISTED
 }
 
 class Binance(Exchange):
   
   def get_prices(self, crypto: Crypto, fiat: Fiat) -> Prices:
     pair = pairs[f'{crypto.value}-{fiat.value}']
-    if pair == 'Delisted':
+    if pair == DELISTED:
       log.info('This pair have been delisted')
       return None
 
@@ -43,5 +44,6 @@ class Binance(Exchange):
       actual=float(data['lastPrice']),
       higher=float(data['highPrice']),
       lower=float(data['lowPrice']),
-      percentageChange=float(data['priceChangePercent'])
+      percentage_change=float(data['priceChangePercent'])
     )  
+  
