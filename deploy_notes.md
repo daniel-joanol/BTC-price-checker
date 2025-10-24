@@ -28,10 +28,11 @@ This is the main CLI entry point for fetching and comparing crypto prices across
 ### Usage
 ```python main.py --crypto BTC --fiat USD```
 
-### Arguments
-Flag          Type        Default     Description
-`--crypto`	  `Crypto`	  `BTC`	      Cryptocurrency to fetch
-`--fiat`	    `Fiat`	    `EUR`	      Fiat currency for price display
+### 
+| Flag           | Type         | Default    | Description                      |
+|----------------|--------------|------------|----------------------------------|
+| `--crypto`     | `Crypto`     | `BTC`      | Cryptocurrency to fetch          |
+| `--fiat`       | `Fiat`       | `EUR`      | Fiat currency for price display  |
 
 ### Behaviour
 - Initializes all exchange instances (`Binance`, `Kraken`, `Foxbit`).
@@ -56,9 +57,10 @@ python test.py --prices --sleep 2
 ```
 
 ### Arguments
-### Flag    Description
-`--prices`	Enables real API calls to exchanges
-`--sleep`	  Sets delay (in seconds) between API calls to prevent rate limiting, default 0
+| Flag        | Description                                                                    |
+|-------------|--------------------------------------------------------------------------------|
+| `--prices`  | Enables real API calls to exchanges                                            |
+| `--sleep`	  | Sets delay (in seconds) between API calls to prevent rate limiting, default 0  |
 
 ---
 
