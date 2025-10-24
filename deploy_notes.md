@@ -38,3 +38,32 @@ Flag          Type        Default     Description
 - Fetches live prices using each exchange’s `get_prices()` implementation.
 - Logs prices in ascending order by `actual price`.
 - Logs an error if no valid results are returned.
+
+---
+
+```test.py```
+Unit tests to ensure:
+- Each exchange defines all expected `(Crypto × Fiat)` pairs.
+- The `get_prices()` method works or raises controlled exceptions.
+
+### Usage
+```
+# Checks if the exchanges implementation implement every crypto/fiat pair
+python test.py
+
+# Checks every pair, plus run live API tests with 2 seconds delay between calls
+python test.py --prices --sleep 2
+```
+
+### Arguments
+### Flag    Description
+`--prices`	Enables real API calls to exchanges
+`--sleep`	  Sets delay (in seconds) between API calls to prevent rate limiting, default 0
+
+---
+
+## Expected Behaviour
+- `start_exchanges()` instantiates all exchanges correctly.
+- Each exchange implements `get_prices()` and defines all valid crypto/fiat pairs.
+- Logging works for both main and test runs.
+- Unsupported pairs raise `UnsupportedCurrencyError` gracefully.
