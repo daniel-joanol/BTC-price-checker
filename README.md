@@ -35,7 +35,7 @@ This script pulls the relevant fields and normalizes them into a comparable form
 Foxbit only provides prices in BRL. To compare it with other exchanges using the same currency, the script uses Currency Freaks.
 
 ### Price change percentage for Kraken
-Kraken’s API doesn’t directly provide the 24h price change percentage. The script calculates it manually using the formula:
+Kraken’s API doesn’t directly provide the 24h price change percentage. The script calculates it manually using the formula: ((actual - open_price) / open_price) * 100
 
 ### Data normalization across APIs
 Each exchange provides slightly different field names and formats. The script standardizes them into a consistent structure for easy comparison.
